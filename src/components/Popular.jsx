@@ -11,14 +11,23 @@ function Popular() {
   const [popular, setPopular] = useState([]);
 
   const getPopular = async () => {
-    const api = await fetch(
-      `https://api.spoonacular.com/recipes/random?apiKey=1b2140ab26814ce0b70f9c8cbcd39a37&number=9`
-    );
+    const check = localStorage.getItem("popular");
 
-    const data = await api.json();
+    if (check) {
+      setPopular(JSON.parse(check));
+    } else {
+      const api = await fetch(
+        `https://api.spoonacular.com/recipes/random?apiKey=1b2140ab26814ce0b70f9c8cbcd39a37&number=9`
+      );
+      const data = await api.json();
 
-    //jogar data dentro do estado
-    setPopular(data.recipes);
+      localStorage.setItem('popular',JSON.stringify(data.recipes))
+
+      //jogar data dentro do estado
+      setPopular(data.recipes);
+    }
+
+
   };
 
   useEffect(() => {
@@ -41,19 +50,21 @@ function Popular() {
         >
           {popular.map((recipe) => {
             return (
-              <SplideSlide>
+              <SplideSlide key={recipe.id}>
                 <Card>
                   <p>{recipe.title}</p>
                   <img src={recipe.image} alt={recipe.title} />
+                  <Gradient />
                 </Card>
               </SplideSlide>
             );
           })}
         </Splide>
       </Wrapper>
-      );
     </div>
-  )};
+    );
+  };
+
 
 const Wrapper = styled.div`
   margin: 4rem 0rem;
@@ -72,9 +83,8 @@ const Card = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    
   }
-  p{
+  p {
     position: absolute;
     z-index: 10;
     left: 50%;
@@ -95,6 +105,9 @@ const Card = styled.div`
 const Gradient = styled.div`
   z-index: 3;
   position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
 `;
 
 export default Popular;

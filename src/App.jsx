@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import "./index.css"
+
 
 //pages
 import Pages from './pages/Pages'
