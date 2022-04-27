@@ -1,19 +1,23 @@
-import { useState } from 'react'
-import "./index.css"
+import { useState } from "react";
+import Category from "./components/Category";
+import "./index.css";
 
+import { BrowserRouter } from "react-router-dom";
 
 //pages
-import Pages from './pages/Pages'
+import Pages from "./pages/Pages";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <div className="App">
-      <h1>Começando</h1>
-      <Pages/>
+      <BrowserRouter>
+        <Category />
+        <Pages />
+      </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
